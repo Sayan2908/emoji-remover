@@ -78,7 +78,6 @@ export default function Home() {
       {/* Header */}
       <header className="header">
         <div className="header__logo">
-          <span className="header__icon">✦</span>
           <h1 className="header__title">Emoji Remover</h1>
         </div>
         <p className="header__subtitle">
