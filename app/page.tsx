@@ -14,12 +14,14 @@ interface ProcessedResult {
 }
 
 type AppState = "idle" | "processing" | "done" | "error";
+type RemovalMode = "simple" | "thorough";
 
 export default function Home() {
   const [state, setState] = useState<AppState>("idle");
   const [result, setResult] = useState<ProcessedResult | null>(null);
   const [error, setError] = useState("");
   const [animateClean, setAnimateClean] = useState(false);
+  const [mode, setMode] = useState<RemovalMode>("simple");
 
   const handleFileSelected = async (file: File) => {
     setState("processing");
@@ -30,6 +32,7 @@ export default function Home() {
     try {
       const formData = new FormData();
       formData.append("file", file);
+      formData.append("mode", mode);
 
       const response = await fetch("/api/remove-emoji", {
         method: "POST",
@@ -85,6 +88,33 @@ export default function Home() {
         </p>
       </header>
 
+      {/* Mode Toggle — shown in idle state */}
+      {(state === "idle" || state === "done") && (
+        <div className="mode-toggle-wrapper fade-in">
+          <div className="mode-toggle">
+            <button
+              className={`mode-toggle__btn ${mode === "simple" ? "mode-toggle__btn--active" : ""}`}
+              onClick={() => setMode("simple")}
+            >
+              <span className="mode-toggle__icon">⚡</span>
+              Simple
+            </button>
+            <button
+              className={`mode-toggle__btn ${mode === "thorough" ? "mode-toggle__btn--active" : ""}`}
+              onClick={() => setMode("thorough")}
+            >
+              <span className="mode-toggle__icon">🔬</span>
+              Thorough
+            </button>
+          </div>
+          <p className="mode-desc">
+            {mode === "simple"
+              ? "Removes standard emoji (faces, animals, flags, symbols). Keeps arrows, bullets, and special chars."
+              : "Aggressive removal — strips arrows (→←), bullets (•), info symbols (ℹ), colored shapes, dingbats, and all non-text symbols."}
+          </p>
+        </div>
+      )}
+
       {/* Upload State */}
       {state === "idle" && (
         <section className="upload-section fade-in">
@@ -123,6 +153,12 @@ export default function Home() {
               <span className="stat__value">{result.fileName}</span>
             </div>
             <div className="stat">
+              <span className="stat__label">Mode</span>
+              <span className="stat__value stat__value--accent">
+                {mode === "simple" ? "Simple" : "Thorough"}
+              </span>
+            </div>
+            <div className="stat">
               <span className="stat__label">Emojis Removed</span>
               <span className="stat__value stat__value--accent">
                 {result.emojisRemoved}
@@ -148,6 +184,7 @@ export default function Home() {
               title={`Cleaned — ${result.fileName}`}
               content={result.cleanedText}
               animate={animateClean}
+              showCopy
             />
           </div>
 
