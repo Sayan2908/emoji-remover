@@ -57,33 +57,50 @@ body {
 .app {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 40px 24px 80px;
+  padding: 100px 24px 80px;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 32px;
 }
 
-/* ======= Header ======= */
-.header {
-  text-align: center;
+/* ======= Navbar ======= */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(10, 10, 15, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
 }
 
-.header__logo {
+.navbar__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 60px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 24px;
 }
 
-.header__icon {
-  font-size: 28px;
+.navbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 120px;
+}
+
+.navbar__logo-icon {
+  font-size: 22px;
   color: var(--accent);
   animation: pulse-glow 3s ease-in-out infinite;
 }
 
-.header__title {
-  font-size: 2rem;
+.navbar__logo-text {
+  font-size: 1.2rem;
   font-weight: 700;
   background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%);
   -webkit-background-clip: text;
@@ -92,8 +109,91 @@ body {
   letter-spacing: -0.02em;
 }
 
-.header__subtitle {
-  font-size: 0.95rem;
+.navbar__tabs {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  justify-content: center;
+}
+
+.navbar__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.navbar__tab:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.navbar__tab--active {
+  color: #fff;
+  background: rgba(139, 92, 246, 0.15);
+}
+
+.navbar__tab--active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  animation: slideIn 0.3s ease-out;
+}
+
+.navbar__spacer {
+  min-width: 120px;
+}
+
+@keyframes slideIn {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 60%;
+  }
+}
+
+/* ======= Tool Header ======= */
+.tool-view {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.tool-header {
+  text-align: center;
+}
+
+.tool-header__title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.tool-header__subtitle {
+  font-size: 0.9rem;
   color: var(--text-muted);
   font-weight: 400;
   letter-spacing: 0.01em;
@@ -556,5 +656,294 @@ body {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ======= Diff Input ======= */
+.diff-input {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.diff-input__panels {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+  align-items: stretch;
+}
+
+@media (max-width: 768px) {
+  .diff-input__panels {
+    grid-template-columns: 1fr;
+  }
+
+  .diff-input__divider {
+    padding: 12px 0 !important;
+  }
+}
+
+.diff-input__panel {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--bg-surface);
+}
+
+.diff-input__panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--border);
+}
+
+.diff-input__label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.diff-input__textarea {
+  width: 100%;
+  min-height: 280px;
+  padding: 16px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.7;
+  resize: vertical;
+}
+
+.diff-input__textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.diff-input__divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+}
+
+.diff-input__vs {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: rgba(139, 92, 246, 0.1);
+  padding: 6px 12px;
+  border-radius: 999px;
+  letter-spacing: 0.1em;
+}
+
+.diff-error {
+  color: var(--red);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.btn--small {
+  padding: 4px 12px;
+  font-size: 0.7rem;
+  background: var(--bg-card);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn--small:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+/* ======= Diff Result ======= */
+.diff-result {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.diff-result--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Summary Cards */
+.diff-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.diff-summary__card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 120px;
+}
+
+.diff-summary__card--wide {
+  min-width: 280px;
+  flex: 1;
+  max-width: 400px;
+}
+
+.diff-summary__label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.diff-summary__value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
+.diff-summary__big {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
+/* Similarity Bar */
+.similarity-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.similarity-bar__fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Diff Panels (side by side) */
+.diff-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .diff-panels {
+    grid-template-columns: 1fr;
+  }
+}
+
+.diff-panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--bg-surface);
+  display: flex;
+  flex-direction: column;
+}
+
+.diff-panel__body {
+  max-height: 480px;
+  overflow: auto;
+  padding: 4px 0;
+}
+
+/* Diff Lines */
+.diff-line {
+  display: flex;
+  align-items: flex-start;
+  padding: 1px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.65;
+  opacity: 0;
+  transform: translateX(-4px);
+  animation: diffLineIn 0.3s ease-out forwards;
+}
+
+
+
+.diff-line--equal {
+  background: transparent;
+}
+
+.diff-line--removed {
+  background: rgba(239, 68, 68, 0.1);
+  border-left: 3px solid var(--red);
+}
+
+.diff-line--added {
+  background: rgba(34, 197, 94, 0.1);
+  border-left: 3px solid var(--green);
+}
+
+.diff-line__num {
+  min-width: 36px;
+  text-align: right;
+  padding-right: 10px;
+  color: var(--text-muted);
+  opacity: 0.5;
+  font-size: 0.7rem;
+  user-select: none;
+}
+
+.diff-line__marker {
+  min-width: 16px;
+  text-align: center;
+  color: var(--text-muted);
+  font-weight: 600;
+  user-select: none;
+}
+
+.diff-line--removed .diff-line__marker {
+  color: var(--red);
+}
+
+.diff-line--added .diff-line__marker {
+  color: var(--green);
+}
+
+.diff-line__content {
+  flex: 1;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--text);
+}
+
+@keyframes diffLineIn {
+  from {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

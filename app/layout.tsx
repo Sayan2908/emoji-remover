@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Emoji Remover — Strip Emojis from Any File",
+  title: "DevLens — Tiny Dev Tools That Matter",
   description:
-    "Upload any text-based file and instantly remove all emojis. Download the clean version with one click.",
+    "Emoji remover, code diff checker, and more micro-tools for developers who care about the small things.",
 };
 
 export default function RootLayout({
